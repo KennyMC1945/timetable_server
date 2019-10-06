@@ -4,8 +4,8 @@ var app = express();
 const mongoose = require("mongoose");
 const db_conf = require("./db_params.js");
 const dbURI = "mongodb://"+db_conf.login+":"+db_conf.pass+"@"+db_conf.URI;
-const userModel = require("./user.js");
-
+const userModel = require("./schemas/user.js");
+const jwt = require("jsonwebtoken");
 const joi = require("@hapi/joi");
 
 const regScheme = joi.object().keys({
@@ -33,8 +33,8 @@ mongoose.connect(dbURI, {useUnifiedTopology: true,
 .then(() => console.log("Connected to DB!")) 
 .catch((err) => console.log(err));
 
-async function isUserExists(username){
-    var doc = await userModel.findOne({login:username}).exec();
+async function isUserExists(usermail){
+    var doc = await userModel.findOne({mail:usermail}).exec();
     console.log(doc);
     return doc
 }
@@ -50,28 +50,8 @@ app.get("/getuser", function(req,res) {
     res.send("lol");
 });
 
-app.post("/newuser",function(req,res) {
-    console.log("POST Request!");
-    var validation = regScheme.validate(req.query);
-    if (validation.error){
-        console.log("Wrong credentials");
-        res.send("Wrong credentials");
-        return;
-    }
-    isUserExists(req.query.login).then((result)=>{
-        if (result) {
-            res.send("User exists!");
-            console.log("User exists!");
-            return;
-        }
-        else {    
-            registerNewUser(req.query);
-            console.log("Ok!");
-            res.send("Fine");
-        }
-    })
-});
-
+app.post("/newuser", require("./routes/registration").register);
+app.get("/login", require("./routes/login").login);
 app.listen(3000, function() {
     console.log("Listening localhost:3000");
 })
