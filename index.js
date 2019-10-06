@@ -33,9 +33,21 @@ mongoose.connect(dbURI, {useUnifiedTopology: true,
 .then(() => console.log("Connected to DB!")) 
 .catch((err) => console.log(err));
 
+async function isUserExists(username){
+    var doc = await userModel.findOne({login:username}).exec();
+    console.log(doc);
+    return doc
+}
+
 app.get("/",function(req,res) {
     res.send("Hello, World!");
     console.log("Connection!");
+});
+
+app.get("/getuser", function(req,res) {
+    
+    isUserExists(req.query.login);//.then((result)=>{console.log(result);});
+    res.send("lol");
 });
 
 app.post("/newuser",function(req,res) {
@@ -44,12 +56,20 @@ app.post("/newuser",function(req,res) {
     if (validation.error){
         console.log("Wrong credentials");
         res.send("Wrong credentials");
+        return;
     }
-    else {
-        registerNewUser(req.query);
-        console.log("Ok!");
-        res.send("Fine");
-    }
+    isUserExists(req.query.login).then((result)=>{
+        if (result) {
+            res.send("User exists!");
+            console.log("User exists!");
+            return;
+        }
+        else {    
+            registerNewUser(req.query);
+            console.log("Ok!");
+            res.send("Fine");
+        }
+    })
 });
 
 app.listen(3000, function() {
