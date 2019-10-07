@@ -1,4 +1,7 @@
 const userModel = require("../schemas/user");
+const jwt = require("jsonwebtoken");
+
+
 module.exports.login = function(req, res) {
     console.log(req.headers);
     userModel.findOne({mail:req.query.mail, pass:req.query.pass}, (err, doc) => {
@@ -6,7 +9,9 @@ module.exports.login = function(req, res) {
         if (!doc) res.send("Wrong credentials"); 
         else {
             console.log(doc);
-            res.send("Login successful!");
+            var payload = {type:"local",id:doc._id};
+            var token = jwt.sign(payload,process.env.SECRET_KEY);
+            res.send(token);
         };
     })
 }
