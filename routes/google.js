@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const bodyParser = require("body-parser");
 const {OAuth2Client} = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
@@ -14,7 +15,7 @@ async function verify(token) {
     const userid = payload['sub'];
     console.log("USERID:\n"+userid);
 }
-router.use(bodyParser().json());
+router.use(bodyParser.json());
 
 router.post("/verify", function (req,res) {
     console.log("Verify Connection!")
