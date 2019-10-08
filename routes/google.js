@@ -17,9 +17,14 @@ async function verify(token) {
 
   
 router.post("/verify", function (req,res) {
+    console.log("Verify Connection!")
     if (req.query.token){
         verify(req.query.token);
         verify().catch(console.error);
+        res.send("Got token");
+    }
+    else {
+        res.send("No token!");
     }
 });  
 
