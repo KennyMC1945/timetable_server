@@ -22,8 +22,7 @@ router.post("/verify", function (req,res) {
     console.log("req.body: "+req.body);
     if (req.body && req.body.token){
         console.log("req.body.token: "+req.body.token)
-        verify(req.body.token);
-        verify().catch(console.error);
+        verify(req.body.token).catch(console.error);
         res.send("Got token");
     }
     else {
