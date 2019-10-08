@@ -18,8 +18,8 @@ async function verify(token) {
   
 router.post("/verify", function (req,res) {
     console.log("Verify Connection!")
-    if (req.query.token){
-        verify(req.query.token);
+    if (req.body.token){
+        verify(req.body.token);
         verify().catch(console.error);
         res.send("Got token");
     }
