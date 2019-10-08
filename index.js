@@ -2,6 +2,7 @@ require('dotenv').config();
 var express = require("express");
 var app = express();
 const debugPath = require("./routes/debug");
+const googleAuthPath = require("./routes/google");
 const mongoose = require("mongoose");
 const dbURI = "mongodb://"+process.env.DBLOGIN+":"+process.env.DBPASS+"@"+process.env.DBCLUSTER;
 const userModel = require("./schemas/user.js");
@@ -50,6 +51,7 @@ app.use((req,res,next) => {
 app.post("/newuser", require("./routes/registration").register);
 app.get("/login", require("./routes/login").login);
 app.use("/debug",debugPath);
+app.use("/auth/google",googleAuthPath);
 
 app.listen(process.env.PORT, function() {
     console.log("Listening localhost:3000");
