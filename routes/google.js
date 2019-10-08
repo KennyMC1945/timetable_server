@@ -14,19 +14,20 @@ async function verify(token) {
     console.log("PAYLOAD:\n"+payload.name);
     const userid = payload['sub'];
     console.log("USERID:\n"+userid);
+    return payload.name;
 }
 router.use(bodyParser.json());
+
 
 router.post("/verify", function (req,res) {
     console.log("Verify Connection!")
     console.log("req.body: "+req.body);
     if (req.body && req.body.token){
         console.log("req.body.token: "+req.body.token)
-        verify(req.body.token).catch(console.error);
-        res.send("Got token");
+        verify(req.body.token).then((name)=>{res.send("200:"+name)}).catch(console.error);
     }
     else {
-        res.send("No token!");
+        res.send("400:No token");
     }
 });  
 
