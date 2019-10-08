@@ -14,8 +14,8 @@ async function verify(token) {
     const userid = payload['sub'];
     console.log("USERID:\n"+userid);
 }
+router.use(bodyParser().json());
 
-  
 router.post("/verify", function (req,res) {
     console.log("Verify Connection!")
     console.log("req.body: "+req.body);
