@@ -21,6 +21,7 @@ router.post("/verify", function (req,res) {
     console.log("Verify Connection!")
     console.log("req.body: "+req.body);
     if (req.body && req.body.token){
+        console.log("req.body.token: "+req.body.token)
         verify(req.body.token);
         verify().catch(console.error);
         res.send("Got token");
