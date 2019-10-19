@@ -13,7 +13,6 @@ mongoose.connect(dbURI, {useUnifiedTopology: true,
 .then(() => console.log("Connected to DB!")) 
 .catch((err) => console.log(err));
 
-
 app.use(bodyParser.json());
 
 app.get("/",function(req,res) {
@@ -51,7 +50,7 @@ app.use((req,res,next) => {
 
 
 app.post("/newuser", require("./routes/registration").register);
-app.get("/login", require("./routes/login").login);
+app.post("/login", require("./routes/login").login);
 app.use("/debug",debugPath);
 app.use("/auth/google",googleAuthPath);
 
