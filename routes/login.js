@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.login = function(req, res) {
     console.log(req.headers);
-    userModel.findOne({mail:req.query.mail, pass:req.query.pass}, (err, doc) => {
+    userModel.findOne({mail:req.body.mail, pass:req.body.pass}, (err, doc) => {
         if (err) throw err;
         if (!doc) res.json({status:400,msg:"Wrong credentials"}); 
         else {
