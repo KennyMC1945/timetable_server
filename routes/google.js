@@ -24,10 +24,10 @@ router.post("/verify", function (req,res) {
     console.log("req.body: "+req.body);
     if (req.body && req.body.token){
         console.log("req.body.token: "+req.body.token)
-        verify(req.body.token).then((name)=>{res.send("200:"+name)}).catch(console.error);
+        verify(req.body.token).then((name)=>{res.json({status:200,username:name})}).catch(console.error);
     }
     else {
-        res.send("400:No token");
+        res.json({status:400,msg:"No token"});
     }
 });  
 
