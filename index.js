@@ -1,6 +1,7 @@
 require('dotenv').config();
 var express = require("express");
 var app = express();
+const bodyParser = require("body-parser");
 const debugPath = require("./routes/debug");
 const googleAuthPath = require("./routes/google");
 const mongoose = require("mongoose");
@@ -13,6 +14,7 @@ mongoose.connect(dbURI, {useUnifiedTopology: true,
 .catch((err) => console.log(err));
 
 
+app.use(bodyParser.json());
 
 app.get("/",function(req,res) {
     res.send("Hello, World!");
