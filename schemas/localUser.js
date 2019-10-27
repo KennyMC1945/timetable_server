@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     mail: String,
     pass: String,
     group: String,
+    notes: [String]
 })
 
-module.exports = mongoose.model('Users',userSchema);
+module.exports = mongoose.model('localUsers',userSchema);

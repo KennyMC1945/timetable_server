@@ -4,10 +4,16 @@ var app = express();
 const bodyParser = require("body-parser");
 const debugPath = require("./routes/debug");
 const googleAuthPath = require("./routes/google");
+const localAuthPath = require("./routes/localAuth");
 const mongoose = require("mongoose");
 const dbURI = "mongodb://"+process.env.DBLOGIN+":"+process.env.DBPASS+"@"+process.env.DBCLUSTER;
-const userModel = require("./schemas/user.js");
+const localUserModel = require("./schemas/localUser");
+const googleUserModel = require("./schemas/googleUser");
 const jwt = require("jsonwebtoken");
+
+
+
+
 mongoose.connect(dbURI, {useUnifiedTopology: true,
      useNewUrlParser: true, autoReconnect:true })
 .then(() => console.log("Connected to DB!")) 
@@ -22,7 +28,8 @@ app.get("/",function(req,res) {
 
 function getAuthModel(type) {
     console.log(type);
-    if (type === "local") return userModel;
+    if (type === "local") return localUserModel;
+    else if (type === "google") return googleUserModel;
 }
 
 app.use((req,res,next) => {
@@ -48,11 +55,9 @@ app.use((req,res,next) => {
 })
 
 
-
-app.post("/newuser", require("./routes/registration").register);
-app.post("/login", require("./routes/login").login);
 app.use("/debug",debugPath);
 app.use("/auth/google",googleAuthPath);
+app.use("/auth/local",localAuthPath);
 
 app.listen(process.env.PORT, function() {
     console.log("Listening localhost:3000");
