@@ -2,18 +2,11 @@ var mongoose = require("mongoose");
 
 var timetableSchema = new mongoose.Schema({
     group:String,
-    top: [[{
-        les_number:Number,
-        les_type:String,
-        les_aud:String,
-        les_name:String   
-    }]],
-    bot: [[{
-        les_number:Number,
-        les_type:String,
-        les_aud:String,
-        les_name:String   
-    }]]
+    mon: String,
+    tue: String,
+    wed: String,
+    thu: String,
+    fri: String
 });
 
-module.exports = mongoose.model("timetableModel",timetableSchema);
+module.exports = mongoose.model("timetables",timetableSchema);
