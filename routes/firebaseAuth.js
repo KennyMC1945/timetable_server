@@ -1,4 +1,4 @@
-const router = require("express").Router;
+const router = require("express").Router();
 const firebaseUserModel = require("../schemas/uniUser");
 const joi = require("@hapi/joi");
 
