@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const firebaseUserModel = require("../schemas/uniUser");
+const jwt = require("jsonwebtoken");
 const joi = require("@hapi/joi");
 
 const regScheme = joi.object().keys({
@@ -20,14 +21,14 @@ function makeJWT(userInfo){
     return token;
 }
 
-function registerNewUser(body) {
+async function registerNewUser(body) {
     var newUser = new firebaseUserModel({
         fb_uid: body.fb_uid,
         name: body.name,
         top_week: body.top_week,
         group: body.group
     })
-    var savedUser = newUser.save();
+    var savedUser = await newUser.save();
     return savedUser;
 }
 
@@ -41,9 +42,10 @@ router.post("/register", function (req,res) {
             if (result) { 
                 res.json({status:400, msg:"Пользователь уже зарегестрирован"});
             } else {
-                var newUser = registerNewUser(req.body);
-                var token = makeJWT(req.body.fb_uid);
-                res.json({status:200, token:token,group:req.body.group,name:req.body.name,top_week:req.body.top_week});
+                registerNewUser(req.body).then((newUser)=>{
+                    var token = makeJWT(newUser.fb_uid);
+                    res.json({status:200, token:token,group:newUser.group,name:newUser.name,top_week:newUser.top_week});
+                });
             }
         })
     }
