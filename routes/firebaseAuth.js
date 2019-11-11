@@ -6,7 +6,7 @@ const regScheme = joi.object().keys({
     fb_uid:joi.string().required(),
     name:joi.string().required(),
     group:joi.string().required(),
-    top_week:joi().number().required()
+    top_week:joi.number().required()
 });
 
 async function isUserExist(userId){
