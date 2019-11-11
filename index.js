@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const debugPath = require("./routes/debug");
 const googleAuthPath = require("./routes/google");
 const localAuthPath = require("./routes/localAuth");
+const firebaseAuth = require("./routes/firebaseAuth")
 const timetablePath = require("./routes/timetable");
 const mongoose = require("mongoose");
 const dbURI = "mongodb://"+process.env.DBLOGIN+":"+process.env.DBPASS+"@"+process.env.DBCLUSTER;
@@ -59,8 +60,9 @@ app.use((req,res,next) => {
 app.use("/debug",debugPath);
 app.use("/auth/google",googleAuthPath);
 app.use("/auth/local",localAuthPath);
-app.use("/info",timetablePath)
+app.use("/auth/firebase/",firebaseAuth);
+app.use("/info",timetablePath);
 app.listen(process.env.PORT, function() {
     console.log("Listening localhost:3000");
-})
+});
 

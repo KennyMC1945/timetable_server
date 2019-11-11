@@ -12,7 +12,7 @@ const regScheme = joi.object().keys({
 })
 
 async function isUserExist(userId){
-    var user = await googleUserModel.findOne({id:userId}).exec();
+    var user = await googleUserModel.findOne({google_id:userId}).exec();
     return user;
 }
 
