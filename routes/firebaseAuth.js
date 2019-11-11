@@ -41,7 +41,8 @@ router.post("/register", function (req,res) {
             if (result) { 
                 res.json({status:400, msg:"Пользователь уже зарегестрирован"});
             } else {
-                var newUser = registerNewUser(req.body)
+                var newUser = registerNewUser(req.body);
+                var token = makeJWT(newUser.fb_uid);
                 res.json({status:200, token:token,group:newUser.group,name:newUser.name,top_week:newUser.top_week});
             }
         })
