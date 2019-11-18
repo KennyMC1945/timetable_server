@@ -15,8 +15,9 @@ async function isUserExist(userId){
     return user;
 }
 
-function makeJWT(userInfo){
-    var payload = {id:userInfo.fb_uid};
+function makeJWT(userId){
+    var payload = {id:userId};
+    console.log("payload "+payload);
     var token = jwt.sign(payload,process.env.SECRET_KEY);
     return token;
 }
