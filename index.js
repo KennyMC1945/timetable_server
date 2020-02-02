@@ -3,14 +3,11 @@ var express = require("express");
 var app = express();
 const bodyParser = require("body-parser");
 const debugPath = require("./routes/debug");
-const googleAuthPath = require("./routes/google");
-const localAuthPath = require("./routes/localAuth");
 const firebaseAuth = require("./routes/firebaseAuth")
 const timetablePath = require("./routes/timetable");
 const userInfoPath = require("./routes/userInfo");
 const mongoose = require("mongoose");
 const dbURI = "mongodb://"+process.env.DBLOGIN+":"+process.env.DBPASS+"@"+process.env.DBCLUSTER;
-const jwt = require("jsonwebtoken");
 
 
 
@@ -32,8 +29,6 @@ app.get("/",function(req,res) {
 
 
 app.use("/debug",debugPath);
-app.use("/auth/google",googleAuthPath);
-app.use("/auth/local",localAuthPath);
 app.use("/auth/firebase/",firebaseAuth);
 app.use("/info",timetablePath);
 app.use("/user",userInfoPath);
