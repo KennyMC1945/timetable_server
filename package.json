@@ -17,6 +17,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.2",
     "mongodb-core": "^3.2.7",
-    "mongoose": "^5.7.1"
+    "mongoose": "^5.7.5"
   }
 }
